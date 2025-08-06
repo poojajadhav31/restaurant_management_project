@@ -1,3 +1,11 @@
+import requests
 from django.shortcuts import render
 
-# Create your views here.
+def homepage_view(request):
+    try:
+        response = requests.get("http://localhost:8000/api/products/")
+        menu_items = response.json()
+    except:
+        menu_items= []
+    return render(requests, "home/menu.html", {"menu_items":menu_items})
+
