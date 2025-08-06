@@ -3,9 +3,9 @@ from .models import Product
 
 
 # Custom Admins
-class ItemAdmin(admin.ModelAdmin):
-    list_display = ['item_name','item_price','created_at']
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name','price','created_at']
 
 
 # Register your models here.
-admin.site.register(Item,ItemAdmin)
+admin.site.register(Product, ProductAdmin)
