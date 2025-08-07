@@ -1,0 +1,31 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff8f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header, footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #fffc00;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.menu li {
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu li strong{
+    font-size: 18px;
+}
