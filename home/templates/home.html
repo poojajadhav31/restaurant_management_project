@@ -15,5 +15,23 @@
         <main>
             <h2>Today's Specials<\h2>
 
-            {% if men}
+            {% if menu_items %}
+                <ul class="menu">
+                    {% for item in menu_items %}
+                       <li>
+                            <strong>{{ item.name}}</strong> - Rs{{ itme.price}}<br>
+                            <em>{{ item.description}}</em>
+                       </li>
+                    {% endfor %}
+                </ul>
+            <% else %>
+                <p>No menu items available at the moment.</p>
+            <% endif %}
+        </main>
 
+        <footer>
+            <p>&copy; 2025 Resrtaurant Inc. All rights reserved</p>
+        </footer>
+    </div>
+</body>
+</html>
