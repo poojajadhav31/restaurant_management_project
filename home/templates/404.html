@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <h1>404</h1>
+        <p> Opps! The page You're looking for doesn't exist.</p>
+        <a href="{% url 'homepage' %}">Go back to Home page</a>
+</body>
+</html>
