@@ -9,3 +9,5 @@ def homepage_view(request):
         menu_items= []
     return render(requests, "home/menu.html", {"menu_items":menu_items})
 
+def custom_404_view(request, exception):
+    return render(request, 'home/404.html', staus=404)
