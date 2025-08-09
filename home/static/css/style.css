@@ -1,11 +1,13 @@
+/* Basic reset */
 body {
     font-family: "Arial", sans-serif;
-    background-color: #f0f8ff;
+    background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 0;
 }
 
+/* Container for content*/
 .container {
     width: 90%;
     max-width: 800px;
@@ -16,12 +18,13 @@ body {
     margin-top: 40px;
 }
 
-header, footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #fffc00;
+/* Header styles */
+header {
+    background-color: #ff6600;
     color: white;
-    margin-bottom: 20px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
 }
 
 .menu li {
