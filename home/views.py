@@ -17,3 +17,13 @@ def homepage_view(request):
 
 def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
+
+
+def menu_list_view(request):
+    menu_items = [
+        "name" : "Panner Tikka", "description":"Grilled cottage cheese with spices","price":150},
+        " name" : "Veg Biryani", "description":"Aromatic rice with vegetables and spices", "price":180},
+        "name" :  "Butter Chiken","description":"Creamy chiken curry","price":220},
+    ]    
+
+    return render(request,"home/menu_list.html", {"menu_items":,enu_items})
