@@ -27,12 +27,31 @@ header {
     border-radius: 5px;
 }
 
-.menu li {
-    list-style: none;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+/* Menu item styels */
+.menu_item {
+    background-color: white;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.menu li strong{
-    font-size: 18px;
+.menu_item h2{
+    margin-top: 0;
+}
+
+.price {
+    color: green;
+    font-weight: bold;
+}
+
+/* Footer styels */
+footer{
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background: #222;
+    color: white;
+    border-radius: 5px;
+
 }
