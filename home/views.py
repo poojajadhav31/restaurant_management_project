@@ -27,3 +27,6 @@ def menu_list_view(request):
     ]    
 
     return render(request,"home/menu_list.html", {"menu_items":,menu_items})
+
+def contact_view(request):
+    return render(request, "home/contact.html")
