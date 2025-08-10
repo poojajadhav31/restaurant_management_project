@@ -9,10 +9,10 @@ def homepage_view(request):
     except:
         menu_items= []
 
-    return render(requests, "home/menu.html", {
+    return render(request, "home/menu.html", {
         "menu_items":menu_items,
         "restaurant_name" : settings.RESTAURANT_NAME,
-        "restaurant_hone" : settings.RESTAURANT_PHONE
+        "restaurant_phone" : settings.RESTAURANT_PHONE
         })
 
 def custom_404_view(request, exception):
@@ -21,9 +21,9 @@ def custom_404_view(request, exception):
 
 def menu_list_view(request):
     menu_items = [
-        "name" : "Panner Tikka", "description":"Grilled cottage cheese with spices","price":150},
-        "name" : "Veg Biryani", "description":"Aromatic rice with vegetables and spices", "price":180},
-        "name" :  "Butter Chiken","description":"Creamy chiken curry","price":220},
+        {"name" : "Paneer Tikka", "description":"Grilled cottage cheese with spices","price":150},
+        {"name" : "Veg Biryani", "description":"Aromatic rice with vegetables and spices", "price":180},
+        {"name" :  "Butter Chicken","description":"Creamy chiken curry","price":220},
     ]    
 
     return render(request,"home/menu_list.html", {"menu_items":,menu_items})
