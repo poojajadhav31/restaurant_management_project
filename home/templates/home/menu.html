@@ -16,7 +16,8 @@
         </style>
     </head>
     <body>
-        <h1> Welcome to Our Restaurant</h1>
+        <h1> Welcome to {{ restauranr_name }}</h1>
+        <p><strong>Call us :</strong> {{ restauranr_phone}}</p>
         {% if menu-items %}
             {% for item in menu-items %}
                 <div class ="menu-item">
