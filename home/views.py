@@ -9,10 +9,10 @@ def homepage_view(request):
     except:
         menu_items= []
 
-    restaurant_name = getattr(settings, "RESTAURANT_NAME", "Tasty Bites")
     return render(requests, "home/menu.html", {
         "menu_items":menu_items,
-        "restaurant_name" : restaurant_name,
+        "restaurant_name" : settings.RESTAURANT_NAME,
+        "restaurant_hone" : settings.RESTAURANT_PHONE
         })
 
 def custom_404_view(request, exception):
