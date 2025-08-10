@@ -1,25 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Restaurant Menu</title>
-        <style>
-            body {font-family:sans-serif; padding:200px; background:#f4f4f4;}
-            .menu-item{
-            background: #fff;
-            margin-bottom: 15px;
-            padding:15px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1)
-            }
-
-            .price{ color:green; font-weight: bold;}
-        </style>
-    </head>
-    <body>
-        <h1> Welcome to {{ restauranr_name }}</h1>
-        <p><strong>Call us :</strong> {{ restauranr_phone}}</p>
-        {% if menu-items %}
-            {% for item in menu-items %}
+<html lang="en">
+<head>
+    <title>{{ restauranr_name - Menu</title>
+    <link rel="styelsheet" href="{ % static 'css/style.css' %}">
+        
+</head>
+<body>
+    <h1> Welcome to {{ restauranr_name }}</h1>
+    <p><strong>Call us :</strong> {{ restauranr_phone}}</p>
+    {% if menu-items %}
+    {% for item in menu-items %}
                 <div class ="menu-item">
                     <h2>{{item.name}}</h2>
                     <p>{{ item.description}}</p>
