@@ -30,3 +30,9 @@ def menu_list_view(request):
 
 def contact_view(request):
     return render(request, "home/contact.html")
+
+def rservations_view(request):
+    return render(request,"home/reservations.html",{
+        "restaurant_name" : settings.RESTAURANT_NAME,
+        "restaurant_phone" : settings.RESTAURANT_PHONE
+        })
