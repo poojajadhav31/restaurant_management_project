@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservations - {{ restaurant_name }}</title>
+    <link rel="stylesheet" href="{% static ' css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Reservations</h1>
+        </header>
+
+        <main>
+            <p> Online Reservationsn will be available soon. Please call us at
+                <strong>{{ restaurant_phone }}</strong> to book your table.</p>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 {{ restaurant_name }}. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
