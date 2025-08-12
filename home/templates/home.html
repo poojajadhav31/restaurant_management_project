@@ -11,12 +11,18 @@
         <header>
             <h1>Welcome to {{restaurant_name}}</h1>
             <p>Delicious food delivered to your door!</p>
+            
             <!---Navigation links -->
 
             <nav class="navbar" >
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'about' %}">About Us</a>
-                <a href="{% url 'contact. %}">Contact Us</a>
+                <div class="nav_container">
+                    <img src="{% static 'images/logo.png' %}" alt="Restaurant logo" class="logo">
+                    <ul class="nav-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'contact. %}">Contact Us</a></li>
+                    </ul>
+                </div>
             </nav>
         </header>
 
