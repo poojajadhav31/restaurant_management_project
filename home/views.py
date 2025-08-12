@@ -1,18 +1,24 @@
+import logging
 import requests
 from django.conf import settings
 from django.shortcuts import render
 
+# congigure logger
+logger = logging.getLogger(__name__)
+
 def homepage_view(request):
     try:
-        response = requests.get("http://localhost:8000/api/products/")
+        response = requests.get("http://localhost:8000/api/products/", timeout=5)
+        response.raise_for_status() # Raise HTTPERROR for response
         menu_items = response.json()
-    except:
+    except RequestException as e:
+        logger.error(f"Error fetching products: {e}")
         menu_items= []
 
     return render(request, "home/menu.html", {
         "menu_items":menu_items,
-        "restaurant_name" : settings.RESTAURANT_NAME,
-        "restaurant_phone" : settings.RESTAURANT_PHONE
+        "restaurant_name" :getattr(settings , "RESTAURANT_NAME"),
+        "restaurant_phone" :getattr(settings,"RESTAURANT_PHONE"),
         })
 
 def custom_404_view(request, exception):
