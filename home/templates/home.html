@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{restaurant_name}}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css % }">
+    <link rel="stylesheet" href="{% static 'css/style.css %}">
 </head>
 <body>
     <div class="container">
@@ -21,13 +21,13 @@
         </header>
 
         <main>
-            <h2>Today's Specials<\h2>
+            <h2>Today's Specials</h2>
 
             {% if menu_items %}
                 <ul class="menu">
                     {% for item in menu_items %}
                        <li>
-                            <strong>{{ item.name}}</strong> - Rs{{ itme.price}}<br>
+                            <strong>{{ item.name}}</strong> - Rs{{ item.price}}<br>
                             <em>{{ item.description}}</em>
                        </li>
                     {% endfor %}
