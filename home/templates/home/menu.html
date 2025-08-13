@@ -2,19 +2,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ restauranr_name - Menu</title>
+    <title>{{ restaurant_name - Menu</title>
     <link rel="styelsheet" href="{ % static 'css/style.css' %}">
         
 </head>
 <body>
-    <h1> Welcome to {{ restauranr_name }}</h1>
-    <p><strong>Call us :</strong> {{ restauranr_phone}}</p>
-    {% if menu-items %}
-    {% for item in menu-items %}
+    <h1> Welcome to {{ restaurant_name }}</h1>
+    <p><strong>Call us :</strong> {{ restaurant_phone}}</p>
+
+    <!--- Search bar ---->
+    <form method="GET" action="" class="search-form">
+        <input type="text" name="search" placeholder="Search menu items..." class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+    <!--Menu Item -->
+    {% if menu_items %}
+    {% for item in menu_items %}
                 <div class ="menu-item">
                     <h2>{{item.name}}</h2>
                     <p>{{ item.description}}</p>
-                    <p class="price">Rs{{ite.price}}</p>
+                    <p class="price">Rs{{item.price}}</p>
                 </div>
             {% endfor %}
         {% else %}
