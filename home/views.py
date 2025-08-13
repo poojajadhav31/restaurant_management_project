@@ -8,18 +8,23 @@ logger = logging.getLogger(__name__)
 
 def homepage_view(request):
     try:
-        response = requests.get("http://localhost:8000/api/products/", timeout=5)
+        api_url = "http://localhost:8000/api/products/"
+        response = requests.get(api_url, timeout=5)
         response.raise_for_status() # Raise HTTPERROR for response
-        menu_items = response.json()
-    except RequestException as e:
-        logger.error(f"Error fetching products: {e}")
-        menu_items= []
+        trestaurant_menu_items = response.json()
+    except requests.exceptions.RequestException as e:
+        logger.exception("Failed to fetch restaurant menu from API.")
+        restaurant_menu_items= []
 
-    return render(request, "home/menu.html", {
-        "menu_items":menu_items,
+    return render(
+        request,
+        "home/menu.html", 
+        {
+        "restauarnt_menu_items":restauarnt_menu_items,
         "restaurant_name" :getattr(settings , "RESTAURANT_NAME"),
         "restaurant_phone" :getattr(settings,"RESTAURANT_PHONE"),
-        })
+        }
+    )
 
 def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
