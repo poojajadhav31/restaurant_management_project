@@ -29,6 +29,12 @@
         <main>
             <h2>Today's Specials</h2>
 
+            <!-- search bar --->
+            <form method="GET" action="" class="search-form">
+                <input type="text" name="q" placeholder="Search for menu items.." class="search-input">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+
             {% if menu_items %}
                 <ul class="menu">
                     {% for item in menu_items %}
