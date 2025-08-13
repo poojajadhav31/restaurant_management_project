@@ -19,6 +19,31 @@ body {
     
 }
 
+/* Search form */
+.search-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0 25px;
+}
+
+.search-input:focus{
+    border-color: #ff6f61;
+    box-shadow: 0 0 5px rgba(255,11,97,0.5);
+}
+
+.search-button{
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff6f61;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 25px 25px 0;
+    font-size: 14px;
+}
+
+
+
 /* Header styles */
 header {
     background-color: #ff6600;
