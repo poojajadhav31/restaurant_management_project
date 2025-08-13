@@ -58,3 +58,70 @@ footer{
 
 
 /* menu page styling*/
+body {
+    font-family: Arial,  sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #222;
+}
+
+p {
+    text-align: center;
+    font-size: 16px;
+}
+
+/* search bar styling */
+.search-form{
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.search-input {
+    padding: 8px 12px;
+    width: 250px;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+}
+
+.search-button {
+    padding: 8px 16px;
+    background-color: #ff6600;
+    color: white;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+}
+
+.search-button:hover{
+    background-color: #e65c00;
+}
+
+/* Menu Item styling */
+.menu-item {
+    background-color: white;
+    padding: 15px;
+    margin: 15px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+}
+
+.menu-item h2 {
+    margin: 0;
+    color: #ff6600;
+}
+
+.menu-item p {
+    margin: 5px 0;
+}
+
+.price{
+    font-weight: bold;
+    color: #27ae60;
+}
