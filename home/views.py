@@ -2,6 +2,8 @@ import logging
 import requests
 from django.conf import settings
 from django.shortcuts import render
+from django import forms
+from .models import feedback
 
 # congigure logger
 logger = logging.getLogger(__name__)
@@ -47,3 +49,20 @@ def rservations_view(request):
         "restaurant_name" : settings.RESTAURANT_NAME,
         "restaurant_phone" : settings.RESTAURANT_PHONE
         })
+
+# feedbackform view
+
+class feedbackform(forms.ModelForm):
+    class Meta:
+        model = feedback
+        fields = ["comments"]
+
+def feedback_view(request):
+    if request.method == "POST":
+        form = feedbackform(render.POST)
+        if form.is_valid()
+        form.save()
+        return render(request, "home/feedback_thanks.html")
+    else:
+        form = feedbackform()
+    return render(request, "home/feedback.html,{"form":form})
