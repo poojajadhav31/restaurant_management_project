@@ -35,18 +35,6 @@
                 <button type="submit" class="search-button">Search</button>
             </form>
 
-            {% if menu_items %}
-                <ul class="menu">
-                    {% for item in menu_items %}
-                       <li>
-                            <strong>{{ item.name}}</strong> - Rs{{ item.price}}<br>
-                            <em>{{ item.description}}</em>
-                       </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No menu items available at the moment.</p>
-            {% endif %}
         </main>
 
         <footer>
