@@ -1,12 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Contact Us - {{restaurant_name}}</title>
-    <link rel="stylesheet" href="{% static 'css/styel.css'%}">
-</head>
-<body>
+{% extends 'home.html' %}
+
+{% block content %}
 <div class="container">
     <header>
         <h1>ContactUs</h1>
@@ -19,9 +13,5 @@
         <p><strong>Address:</strong><123 main Street, Benhaluru</p>
     </main>
 
-    <footer>
-        <p>&copy; 2025 {{ restaurant_name }}. All rights rserved,</p>
-    </footer>
-</div>
-</body>
-</html>
+{% endblock %}
+
