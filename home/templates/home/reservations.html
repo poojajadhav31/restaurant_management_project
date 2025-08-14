@@ -1,16 +1,16 @@
 {% extends 'home.html' %}
 {% load static %}
 
-{% block title %} Reservationns- {{ restaurant_name }}{% endblock %}
+{% block title %} Reservations- {{ restaurant_name }}{% endblock %}
 {% block content %}
-    <div class="container">
-        <header>
-            <h1>Reservations</h1>
-        </header>
+<div class="container">
+    <header>
+        <h1>Reservations</h1>
+    </header>
 
-        <main>
-            <p> Online Reservationns will be available soon. Please call us at
-                <strong>{{ restaurant_phone }}</strong> to book your table.</p>
-        </main>
-    </div>
+    <main>
+        <p> Online Reservations will be available soon. Please call us at
+            <strong>{{ restaurant_phone }}</strong> to book your table.</p>
+    </main>
+</div>
 {% endblock %}
