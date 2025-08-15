@@ -1,0 +1,10 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %} Thank You - {{ resatuarnt_name }}{% endblock %}
+
+{% block content %}
+    <h2>Thank You</h2>
+    <p>Your Feedback has been submitted successfully.</p>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}
