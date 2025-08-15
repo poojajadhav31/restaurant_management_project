@@ -14,7 +14,7 @@ def homepage_view(request):
         api_url = "http://localhost:8000/api/products/"
         response = requests.get(api_url, timeout=5)
         response.raise_for_status() # Raise HTTPERROR for response
-        trestaurant_menu_items = response.json()
+        restaurant_menu_items = response.json()
     except requests.exceptions.RequestException as e:
         logger.exception("Failed to fetch restaurant menu from API.")
         restaurant_menu_items= []
@@ -23,7 +23,7 @@ def homepage_view(request):
         request,
         "home/menu.html", 
         {
-        "restauarnt_menu_items":restauarnt_menu_items,
+        "restaurant_menu_items":restaurant_menu_items,
         "restaurant_name" :getattr(settings , "RESTAURANT_NAME"),
         "restaurant_phone" :getattr(settings,"RESTAURANT_PHONE"),
         }
