@@ -39,8 +39,11 @@
         </main>
 
         <footer>
-            <p>&copy; {{ current_year }} {{ restaurant_name}}. All rights reserved</p>
-            <p>Opening Hours:Mon-Fri: 11am-9pm, Sat-Sun: 10am-10pm</p>
+            <div class="footer-content">
+                <p> Opening Hours: Mon-Fri: 11am-9pm, Sat-Sun: 10am-10pm</p>
+                <p>Contact: {{ restaurant_phone }}</p>
+                <p>&copy; {{ current_year }} {{ restaurant_name}}. All rights reserved</p>
+            </div>
         </footer>
     </div>
 </body>
