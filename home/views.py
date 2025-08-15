@@ -3,6 +3,7 @@ import requests
 from django.conf import settings
 from django.shortcuts import render
 from .forms import  ContactForm
+from products.models import products
 from django import feedbackform
 from .models import feedback
 
@@ -33,7 +34,7 @@ def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
 
 
-def menu_list_view(request):
+def menu_view(request):
     menu_items = [
         {"name" : "Paneer Tikka", "description":"Grilled cottage cheese with spices","price":150},
         {"name" : "Veg Biryani", "description":"Aromatic rice with vegetables and spices", "price":180},
