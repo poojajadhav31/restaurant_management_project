@@ -7,11 +7,11 @@
         <p> We'd love hear from you!</p>
     </header>
 
-    <main>
-        <p><strong>Phone:</strong>+91 987654 432110</p>
-        <p><strong>Eamail:</strong>Contact@restaurant.com</p>
-        <p><strong>Address:</strong><123 main Street, Benhaluru</p>
-    </main>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form>
 
 {% endblock %}
 
