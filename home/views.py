@@ -2,6 +2,7 @@ import logging
 import requests
 from django.conf import settings
 from django.shortcuts import render
+from .forms import  ContactForm
 from django import feedbackform
 from .models import feedback
 
@@ -42,7 +43,10 @@ def menu_list_view(request):
     return render(request,"home/menu_list.html", {"menu_items":,menu_items})
 
 def contact_view(request):
-    return render(request, "home/contact.html")
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        return render(request,"home/contact_success.html",{})
+    return render(request, "home/contact.html",{"form":form})
 
 def rservations_view(request):
     return render(request,"home/reservations.html",{
