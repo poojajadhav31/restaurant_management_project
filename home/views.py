@@ -6,6 +6,7 @@ from .forms import  ContactForm
 from products.models import Product
 from django import feedbackform
 from .models import feedback
+from .models import RestaurantInfo
 
 # congigure logger
 logger = logging.getLogger(__name__)
@@ -20,6 +21,10 @@ def homepage_view(request):
         logger.exception("Failed to fetch restaurant menu from API.")
         restaurant_menu_items= []
 
+    # Fetch restuarant address from model
+    restuarant = RestaurantInfo.objects.first()
+    address = restaurant.address if restaurant else "Address not available"
+
     return render(
         request,
         "home/menu.html", 
@@ -27,6 +32,7 @@ def homepage_view(request):
         "restaurant_menu_items":restaurant_menu_items,
         "restaurant_name" :getattr(settings , "RESTAURANT_NAME"),
         "restaurant_phone" :getattr(settings,"RESTAURANT_PHONE"),
+        "restaurant_address" : address,
         }
     )
 
