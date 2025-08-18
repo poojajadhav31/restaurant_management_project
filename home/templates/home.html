@@ -30,8 +30,10 @@
             <h2>Today's Specials</h2>
 
             <!-- search bar --->
-            <form method="GET" action="">
-                <input type="text" name="q" placeholder="Search for menu items.." value="{{request.GET.q}}">
+            <form method="GET" action="{% url 'home' %}">
+                <input type="text" name="q" placeholder="Search for menu items.." 
+                 value="{{ request.GET.q|default:' '}}"
+                 class="search-input">
                 <button type="submit">Search</button>
             </form>
             {% block content %}{% endblock %}
