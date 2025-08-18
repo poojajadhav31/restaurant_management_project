@@ -14,7 +14,7 @@ class ContactSubmission(models.Model):
     submmited_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.name} ({self.email})"
+        return self.name
 
 class feedback(models.Model):
     comment = models.TextField()
