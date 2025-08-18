@@ -8,7 +8,7 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'placeholder': "Your Email"
     }))
-    message = forms.Charfield(
+    message = forms.CharField(
         required=False,
         widget = forms.Textarea(attrs={'rows':4, 'placeholder': 'Your message (optional)'}),
     )
