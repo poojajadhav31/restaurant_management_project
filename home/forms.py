@@ -2,7 +2,7 @@ from django import forms
 from .models import feedbck
 
 class ContactForm(forms.Form):
-    name = forms.Charfield(max_length=100, required=True,widget=forms.TextInput(attrs={
+    name = forms.CharField(max_length=100, required=True,widget=forms.TextInput(attrs={
         'placeholder': "Your Name"
     }))
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
@@ -10,7 +10,7 @@ class ContactForm(forms.Form):
     }))
     message = forms.Charfield(
         required=False,
-        widget = forms.Textarea(attrs={'rows':4, 'placeholder': 'Yuor message (optional)'}),
+        widget = forms.Textarea(attrs={'rows':4, 'placeholder': 'Your message (optional)'}),
     )
 
 class feedbckForm(forms.ModelForm):
