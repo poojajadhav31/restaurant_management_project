@@ -31,3 +31,6 @@ class feedback(models.Model):
 
 def __str__(self):
     return f"feedback {self.id} - {self.submmited_at.strtime('%Y-%m%d')}"
+
+python manage.py makemigrations
+python manage.py migrate
