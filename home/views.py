@@ -24,6 +24,7 @@ def homepage_view(request):
     # Fetch restuarant address from model
     restuarant = RestaurantInfo.objects.first()
     address = restaurant.address if restaurant else "Address not available"
+    hours = restaurant.opening_hours if restaurant else "No opening hours available"
 
     return render(
         request,
@@ -33,6 +34,7 @@ def homepage_view(request):
         "restaurant_name" :getattr(settings , "RESTAURANT_NAME"),
         "restaurant_phone" :getattr(settings,"RESTAURANT_PHONE"),
         "restaurant_address" : address,
+        "opening_hours" : hours,
         }
     )
 
