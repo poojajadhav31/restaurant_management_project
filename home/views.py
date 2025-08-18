@@ -50,8 +50,9 @@ def menu_view(request):
     })
 
 def contact_view(request):
-    form = ContactForm(request.POST)
-    if form.is_valid():
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
         return render(request,"home/contact_success.html",{})
     return render(request, "home/contact.html",{"form":form})
 
