@@ -9,14 +9,14 @@
     <!--Menu Item -->
     {% if menu_items %}
         {% for item in menu_items %}
-                <div class ="menu-item">
-                    <h2>{{item.name}}</h2>
-                    {% if item.image %}
-                        <img src="{{ item.imgae.url }}" alt="{{ item.name}}" width="200">
-                    {% endif %}
-                    <p>{{ item.description}}</p>
-                    <p class="price">Rs{{item.price}}</p>
-                </div>
+            <div class ="menu-item">
+                <h2>{{item.name}}</h2>
+                {% if item.image %}
+                    <img src="{{ item.imgae.url }}" alt="{{ item.name}}" width="200">
+                {% endif %}
+                <p>{{ item.description}}</p>
+                <p class="price">Rs{{item.price}}</p>
+            </div>
         {% endfor %}
     {% else %}
         <p>No Menu items available.</p>
