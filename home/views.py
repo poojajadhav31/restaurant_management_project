@@ -55,6 +55,30 @@ def contact_view(request):
         return render(request,"home/contact_success.html",{})
     return render(request, "home/contact.html",{"form":form})
 
+def email_contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if from.is_valid():
+            name = form.cleaned_data['name']
+            email = from.cleaned_data['email']
+            message = form.cleaned_data['message']
+            subject = f" New Contact Message from {name}"
+            body = f"Name: {name}\nEmail: {email}\n{message}"
+
+            send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                ['your_resaturant@gmail.com'],
+            )
+
+            return render(request, 'home/email_success.html')
+    else:
+        form = ContactForm()
+    
+    return render(request,'home/contact.html', {'form': from})
+    
+
 def rservations_view(request):
     return render(request,"home/reservations.html",{
         "restaurant_name" : settings.RESTAURANT_NAME,
