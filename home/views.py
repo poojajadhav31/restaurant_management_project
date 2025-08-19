@@ -1,13 +1,11 @@
 import logging
 import requests
 from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render
 from products.models import Product
-from django import feedbackform
-from .models import feedback
-from .models import ContactForm
-from .models import ContactSubmission
-from .models import RestaurantInfo
+from .models import RestaurantInfo, ContactSubmission,feedback
+from .forms import ContactForm ,FeedbackForm
 
 # congigure logger
 logger = logging.getLogger(__name__)
@@ -38,6 +36,9 @@ def homepage_view(request):
         "opening_hours" : hours,
         }
     )
+
+def about_view(request):
+    return render(request, "home/about.html")
 
 def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
@@ -88,7 +89,7 @@ def email_contact_view(request):
     return render(request,'home/contact.html', {'form': from})
     
 
-def rservations_view(request):
+def reservations_view(request):
     return render(request,"home/reservations.html",{
         "restaurant_name" : settings.RESTAURANT_NAME,
         "restaurant_phone" : settings.RESTAURANT_PHONE
