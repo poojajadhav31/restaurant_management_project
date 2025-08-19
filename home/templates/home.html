@@ -9,6 +9,10 @@
 <body>
     <div class="container">
         <header>
+            {% if restaurant_logo %}
+               <img src="{{ restaurant_logo }}" alt="Restaurant Logo" class="logo-img">
+            {% endif %}
+            
             <h1>Welcome to {{restaurant_name}}</h1>
             <p>Delicious food delivered to your door!</p>
             
