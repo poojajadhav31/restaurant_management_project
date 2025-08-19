@@ -89,4 +89,7 @@ footer{
 
 }
 
-
+.logo-img {
+    max-width: 120px;
+    margin-bottom: 10px;
+}
