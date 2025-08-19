@@ -26,6 +26,14 @@ def homepage_view(request):
     hours = restaurant.opening_hours if restaurant else "No opening hours available"
     logo = restaurant.logo.url if restaurant and restaurant.logo else None
 
+    cart_count = 0
+    if request.user.is_authenticated:
+        try:
+            pending_order = Order.objects.get(user=request.user, status='pending')
+            cart_count = pending_order.items.count()
+        except Order.DoesNotExist:
+            cart_count = 0
+
     return render(
         request,
         "home/menu.html", 
@@ -36,6 +44,7 @@ def homepage_view(request):
         "restaurant_address" : address,
         "opening_hours" : hours,
         "restaurant_logo" :logo,
+        "cart_count": cart_count
         }
     )
 
