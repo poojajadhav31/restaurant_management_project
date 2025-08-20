@@ -10,6 +10,11 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+
+        {% if form.errors %}
+            <p style="color:red;">Please fill in all required fields correctly.</p>
+        {% endif %}
+        
         <button type="submit">Send</button>
     </form>
 
