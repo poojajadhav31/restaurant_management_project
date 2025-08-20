@@ -9,8 +9,8 @@ class ContactForm(forms.Form):
         'placeholder': "Your Email"
     }))
     message = forms.CharField(
-        required=False,
-        widget = forms.Textarea(attrs={'rows':4, 'placeholder': 'Your message (optional)'}),
+        required=True,
+        widget = forms.Textarea(attrs={'rows': 4, 'placeholder': 'Your message (optional)'}),
     )
 
 class feedbckForm(forms.ModelForm):
