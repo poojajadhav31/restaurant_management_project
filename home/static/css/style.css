@@ -59,6 +59,13 @@ header p {
     margin-top: 5px;
 }
 
+.tagline {
+    font-size: 18px;
+    color: #555;
+    margin: 8px 0;
+    font-style: italic;
+}
+
 /* Menu item styels */
 .menu-item {
     background-color: white;
