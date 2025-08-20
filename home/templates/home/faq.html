@@ -1,0 +1,23 @@
+{% extends "home.html" %}
+
+{% block title %}FQA - {{ restaurant_name }}{% endblock %}
+
+{% block breadcrumbs %}
+
+<p class="breadcrumbs"><a href="{% url 'home' %}">Home</a> FQA</p>
+{% endblock %}
+
+{% block content %}
+<h1>Frequently Asked questions</h1>
+
+<div class="faq-item">
+    <h3>Q: what are your operating hours</h3>
+    <p>A: Yes, we provide delivery within 5 km.</p>
+</div>
+
+<div class="faq-item">
+    <h3>Q: How can I make a reservation?</h3>
+    <p>A: You can use our reservation page or call us at {{ restaurant_Phone }}.</p>
+</div>
+
+{% endblock %}
