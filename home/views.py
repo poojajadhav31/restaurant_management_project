@@ -45,6 +45,7 @@ def homepage_view(request):
         "opening_hours" : hours,
         "restaurant_logo" :logo,
         "cart_count": cart_count
+        "breadcrumbs":[("Home", None)],
         }
     )
 
