@@ -122,3 +122,6 @@ def feedback_view(request):
     else:
         form = feedbackform()
     return render(request, "home/feedback.html,{"form":form})
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
