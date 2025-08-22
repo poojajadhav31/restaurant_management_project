@@ -106,3 +106,20 @@ footer{
     max-width: 120px;
     margin-bottom: 10px;
 }
+
+/* breadcrumbs style */
+.breadcrumb {
+    background: none;
+    margin: 10px 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumb-item.active {
+    color: #555;
+}
