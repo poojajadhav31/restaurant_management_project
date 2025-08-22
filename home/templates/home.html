@@ -57,7 +57,10 @@
                 <pre>{{Opening_hours}}</pre>
                 <p>Contact: {{ restaurant_phone }}</p>
                 <p>Current Time: {{ now|date:"D d M Y, h:i A"}}</p>
-                <p>&copy; {{ current_year }} {{ restaurant_name}}. All rights reserved</p>
+                <p>
+                    &copy; {{ current_year }} {{ restaurant_name}}. All rights reserved
+                    <a href="{% url 'privacy_policy' %}" class="text-white">privacy_policy</a>
+                </p>
             </div>
         </footer>
     </div>
