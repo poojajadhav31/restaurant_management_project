@@ -50,7 +50,12 @@ def homepage_view(request):
     )
 
 def about_view(request):
-    return render(request, "home/about.html")
+    return render(request, "home/about.html"),{
+        "breadcrumbs": [
+            ("Home", "/"),
+            ("About", None)
+        ],
+    })
 
 def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
@@ -61,6 +66,10 @@ def menu_view(request):
     return render(request,"home/menu.html", {
         "menu_items":,menu_items,
         "restaurant_name":"Tasty Bites"
+        "breadcrumbs": [
+            ("Home", "/")
+            ("Menu", None)
+        ],
     })
 
 def contact_view(request):
@@ -75,8 +84,14 @@ def contact_view(request):
             return render(request,"home/contact_success.html",{})
         else:
             form = ContactForm
-    return render(request, "home/contact.html",{"form":form})
-
+    return render(request, "home/contact.html",{"form":form}),
+        "form": form,
+        "breadcrumbs":[
+            ("Home", "/")
+            ("Contact",None)
+        ],
+    })
+     
 def email_contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
