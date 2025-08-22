@@ -9,4 +9,6 @@ urlpatterns = [
    path('reservations/' views,reservations_view, name="reservations"),
    path('feedback/',feedback_view, name='feedback'),
    path('faq/' , faq_view, name="faq"),
+   path("login/", auth_views.LoginView.auth_view(template_name="home/login.html"), name="login",),
+   path("logout/",auth_views.LogoutView.as_view(next_page="homepage"), name="logout"),
 ]
