@@ -123,3 +123,28 @@ footer{
 .breadcrumb-item.active {
     color: #555;
 }
+
+/* Order Button Styling */
+
+.order-btn-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.order-btn {
+    display: inline-block;
+    background-color: #ff5722;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: bachround-color 0.3s,transform 0.2s;
+}
+
+/* Hover effect */
+.order-btn:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+}
