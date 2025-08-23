@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django import settings
+from django.conf.urls.staic import staic
 from django.urls import path,include
 
 urlpatterns = [
@@ -23,4 +25,7 @@ urlpatterns = [
     path('api/accounts/',include('account.urls')),
     path('api/products/',include('products.urls')),
     path('api/orders/',include('orders.urls')),
+    path('login/auth_views.LoginView.as_view(template_name='home/login.html' name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home', name='logout'),
 ]
++ staic(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
