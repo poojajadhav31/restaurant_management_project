@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Today's Specials</title>
+</head>
+<body>
+    <h1>Today's Specials</h1>
+
+    {% if Specials %}
+       <ul>
+            {% for item in Specials %}
+               <li>
+                  <strong>{{ item.item_name }}</strong>- Rs{{ item-price }}<br>
+                  {{ ite_description }}
+               </li>
+            {% endfor %}
+       </ul>
+    {% else %}
+       <p> No Specials today. check by tomarrow!</p>
+    {% endif %}
+</body>
+</html>
+
+              
+        
+           
+           
