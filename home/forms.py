@@ -20,3 +20,12 @@ class feedbckForm(forms.ModelForm):
         widgets = {
             'comment': forms.Textarea(attrs={'placeholder': 'Enter your feedback...','rows':4,'col':50}),
         }
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = feedback
+        fields = ['name', 'feedback_text']
+        widgets = {
+            'name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter your name'}),
+            'feedback_text': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Write your feddback'}),
+        }
