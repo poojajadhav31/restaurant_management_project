@@ -24,3 +24,7 @@ def menu_api(request):
 
     ]
     return Response(menu)
+
+def todays_specials(request):
+    specials = Special.objects.filter(date=date.today())
+    return render(request,'products/specials.html',{'specials':specials})
