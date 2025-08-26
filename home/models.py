@@ -6,6 +6,7 @@ class RestaurantInfo(models.Model):
     phone_number = models.CharField(max_length=20)
     opening_hours = models.TextField(blank=True)
     logo = models.ImageField(upload_to='restaurant_logos/', blank=True, null=True)
+    image = models.ImageField(upload_to='restaurant_images/', blank=True, null=True)
     about_image = models.ImageField(upload_to='restaurant_about/', blank=True, null=True)
     
     def __str__(self):
