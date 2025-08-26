@@ -1,11 +1,13 @@
 {% extends 'home.html' %}
 
 {% block content %}
-    <h1>About Tasty Bites</h1>
-    <p>Welcome to tasty Bites, your go-to place for delicious and freshly prepared meals!
+    <h1>About {{ restaurant.name }}</h1>
+    <p>Welcome to {{ restaurant.name}}, your go-to place for delicious and freshly prepared meals!
         We pride ourselves on using the finest ingredients to craft meals that satisfy every craving!</p>
-    
-    <img src="{% static 'images/restaurant.jpg' %}" alt="Tasty Bites Resaturant" width="600">
-
+    {% if restaurant.image %}
+       <img src="{{ restaurant.image.url }}" alt="{{ restaurnt.name }}" width="600">
+    {% else %}  
+       <img src="{% static 'images/restaurant.jpg' %}" alt="Tasty Bites Resaturant" width="600">
+    {% endif %}
     <br><a href="{% url 'home'%}">Back to Home</a>
 {% endblock %}
