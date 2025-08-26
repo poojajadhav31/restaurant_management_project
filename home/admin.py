@@ -3,7 +3,10 @@ from .models import RestaurantInfo
 from .models import RestaurantLocation
 
 # Register your models here.
-admin.site.register(RestaurantInfo)
+@admin.register(RestaurantInfo)
+class RestaurantInfoAdmin(admin.ModelAdmin):
+    list_display = ("name", "address", phone_number)
+
 admin.site.register(RestaurantLocation)
 admin.site.register(ContactSubmission)
 admin.site.register(Feedback)
