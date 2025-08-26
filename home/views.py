@@ -50,7 +50,8 @@ def homepage_view(request):
     )
 
 def about_view(request):
-    return render(request, "home/about.html"),{
+    restuarant_info = RestaurantInfo.objects.first()
+    return render(request, "home/about.html",{'restuarant_info':restuarant_info}),{
         "breadcrumbs": [
             ("Home", "/"),
             ("About", None)
