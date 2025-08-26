@@ -5,4 +5,6 @@ from .models import RestaurantLocation
 # Register your models here.
 admin.site.register(RestaurantInfo)
 admin.site.register(RestaurantLocation)
+admin.site.register(ContactSubmission)
+admin.site.register(Feedback)
 opening_hours = "Mon-Fri: 11 AM-9PM\nSat-Sun: 10AM-10PM"
