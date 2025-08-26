@@ -8,69 +8,70 @@
     <title>{% block title %}restaurant_name{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <div class="container">
-        <header>
-            {% if restaurant_logo %}
-               <img src="{{ restaurant_logo }}" alt="Restaurant Logo" class="logo-img">
-            {% endif %}
+<body class="home-body">
+    <div class="overly">
+        <div class="container">
+            <header>
+                {% if restaurant_logo %}
+                   <img src="{{ restaurant_logo }}" alt="Restaurant Logo" class="logo-img">
+                {% endif %}
             
-            <h1>Welcome to {{restaurant_name}}</h1>
-            <p class="tagline">Fresh flavors, warm hospitality - served daily.</p></p>
-            <p><strong>Contact us:</strong> {{ restaurant_phone}}</p>
-            <p>Current Time: {{ now|date:"D d M Y, h:i A"}}</p>
-            <p> Items in cart: {{ cart_count}}
-            
-            <!---Navigation links -->
-
-            <nav class="navbar" >
-                <div class="nav_container">
-                    <img src="{% static 'images/logo.png' %}" alt="Restaurant logo" class="logo">
-                    <ul class="nav-links">
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">About Us</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                        <li><a href="#">Cart ({{ cart_count }})</a></li>
-                        <li><a href="{% url 'faq' %}">FAQ</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-
-        <main>
-            {% block breadcrumbs %}{% endblock %}
-            <h2>Today's Specials</h2>
-
-            <!-- search bar --->
-            <form method="GET" action="{% url 'home' %}">
-                <input type="text" name="q" placeholder="Search for menu items.." 
-                 value="{{ request.GET.q|default:' '}}"
-                 class="search-input">
-                <button type="submit">Search</button>
-            </form>
-            {% block content %}{% endblock %}
-
-            <!-- Order Now Button -->
-            <div class = "order-btn-container">
-                <a href="{% url 'order %}" class="order-btn">Order Now</a>
-            </div>
-
-            {% block content %}{% endblock %}
-
-        </main>
-
-        <footer>
-            <div class="footer-content">
-                <p><strong>Opening_hours</strong></p>
-                <pre>{{Opening_hours}}</pre>
-                <p>Contact: {{ restaurant_phone }}</p>
+                <h1>Welcome to {{restaurant_name}}</h1>
+                <p class="tagline">Fresh flavors, warm hospitality - served daily.</p></p>
+                <p><strong>Contact us:</strong> {{ restaurant_phone}}</p>
                 <p>Current Time: {{ now|date:"D d M Y, h:i A"}}</p>
-                <p>
-                    &copy; {{ current_year }} {{ restaurant_name}}. All rights reserved
-                    <a href="{% url 'privacy_policy' %}" class="text-white">privacy_policy</a>
-                </p>
-            </div>
-        </footer>
+                <p> Items in cart: {{ cart_count}}
+            
+                <!---Navigation links -->
+
+                <nav class="navbar" >
+                    <div class="nav_container">
+                        <img src="{% static 'images/logo.png' %}" alt="Restaurant logo" class="logo">
+                        <ul class="nav-links">
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                            <li><a href="#">Cart ({{ cart_count }})</a></li>
+                            <li><a href="{% url 'faq' %}">FAQ</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+
+            <main>
+                {% block breadcrumbs %}{% endblock %}
+                <h2>Today's Specials</h2>
+
+                <!-- search bar --->
+                <form method="GET" action="{% url 'home' %}">
+                    <input type="text" name="q" placeholder="Search for menu items.." 
+                        value="{{ request.GET.q|default:' '}}"
+                        class="search-input">
+                    <button type="submit">Search</button>
+                </form>
+
+                {% block content %}{% endblock %}
+
+                <!-- Order Now Button -->
+                <div class = "order-btn-container">
+                    <a href="{% url 'order %}" class="order-btn">Order Now</a>
+                </div>
+
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <p><strong>Opening_hours</strong></p>
+                    <pre>{{Opening_hours}}</pre>
+                    <p>Contact: {{ restaurant_phone }}</p>
+                    <p>Current Time: {{ now|date:"D d M Y, h:i A"}}</p>
+                    <p>
+                        &copy; {{ current_year }} {{ restaurant_name}}. All rights reserved
+                        <a href="{% url 'privacy_policy' %}" class="text-white">privacy_policy</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
 </html>
