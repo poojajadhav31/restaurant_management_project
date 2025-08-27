@@ -133,4 +133,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RESTAURANT_NAME = "Tasty Bites"
 RESTAURANT_PHONE = "+919876543210"
-RESTAURANT_HOURS = "Mon-fri: 11am-9pm, Sat-Sun: 10am-10pm"
+RESTAURANT_HOURS = "Mon-fri: 11 AM - 9 PM, Sat-Sun: 10AM - 10PM"
