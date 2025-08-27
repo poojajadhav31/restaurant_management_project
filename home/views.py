@@ -74,6 +74,10 @@ def menu_view(request):
     })
 
 def contact_view(request):
+    #Get resstaurant adddres fro RestaurantInfo model
+    restaurant = RestaurantInfo.objects,first()
+    adddres = restaurant.adddres if resstaurant else "Address not avaialble"
+
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -87,6 +91,7 @@ def contact_view(request):
             form = ContactForm
     return render(request, "home/contact.html",{"form":form}),
         "form": form,
+        "restauranr_address": adddres,
         "breadcrumbs":[
             ("Home", "/")
             ("Contact",None)
