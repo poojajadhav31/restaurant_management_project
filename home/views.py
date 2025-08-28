@@ -85,6 +85,7 @@ def contact_view(request):
             ContactSubmission.objects.create(
                 name = form.cleaned_data['name'],
                 email = form.cleaned_data['email']
+                feedback_text=form.cleaned_data.get('feedback_text','')
             )
             return render(request,"home/contact_success.html",{})
         else:
