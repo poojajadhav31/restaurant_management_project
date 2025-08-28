@@ -1,0 +1,9 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<div class="thankyou-container">
+    <h1> Thank You </h1>
+    <p>Your message has been successfully submitted. We'll get back to you soon.</p>
+    <a href="{% url 'home' %}" class="back-home-btn">Back to Home</a>
+</div>
+{% endblock %}
