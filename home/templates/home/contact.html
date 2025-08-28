@@ -7,13 +7,34 @@
         <p> We'd love hear from you!</p>
     </header>
 
-    <form method="POST">
+    <form method="POST" class="contact-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <div class="form-group">
+            <label for="{{form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="error">{{ form.name.errors|striptags }}</div>
+            {% endif %}
+        </div>
 
-        {% if form.errors %}
-            <p style="color:red;">Please fill in all required fields correctly.</p>
-        {% endif %}
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ for,.email }}
+            {% if form.email.errors %}
+               <div class="error">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.message.id_for_label }}">Message:</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+               <div class="error">{{ form.message.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        
         
         <button type="submit">Send</button>
     </form>
