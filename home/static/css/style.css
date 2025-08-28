@@ -148,3 +148,50 @@ footer{
     background-color: #e64a19;
     transform: scale(1.05);
 }
+
+/* Contact Us page styling */
+.contact-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff9f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+
+.contact-container header h1 {
+    text-align: center;
+    color: #e67e22;
+    margin-bottom: 5px;
+}
+
+.contact-container header p {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.contact-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-container form input,
+.contact-container form textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact-container form button:hover {
+    background-color: #d35400;
+}
+
+.contact-container form p {
+    margin-bottom: 10px;
+}
