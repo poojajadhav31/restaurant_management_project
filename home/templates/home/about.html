@@ -2,8 +2,8 @@
 
 {% block content %}
     <h1>About {{ restaurant.name }}</h1>
-    <p>Welcome to {{ restaurant.name}}, your go-to place for delicious and freshly prepared meals!
-        We pride ourselves on using the finest ingredients to craft meals that satisfy every craving!</p>
+    <p>{{ restaurant.description }}</p>
+    
     {% if restaurant.image %}
        <img src="{{ restaurant.image.url }}" alt="{{ restaurnt.name }}" width="600">
     {% else %}  
