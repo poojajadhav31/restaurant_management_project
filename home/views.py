@@ -51,12 +51,13 @@ def homepage_view(request):
 
 def about_view(request):
     restuarant_info = RestaurantInfo.objects.first()
-    return render(request, "home/about.html",{'restuarant_info':restuarant_info}),{
+    context = {
         "breadcrumbs": [
             ("Home", "/"),
             ("About", None)
         ],
-    })
+    }
+    return render(request, "home/about.html", context)
 
 def custom_404_view(request, exception):
     return render(request, 'home/404.html', status=404)
