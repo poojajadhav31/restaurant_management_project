@@ -8,6 +8,7 @@ class RestaurantInfo(models.Model):
     logo = models.ImageField(upload_to='restaurant_logos/', blank=True, null=True)
     image = models.ImageField(upload_to='restaurant_images/', blank=True, null=True)
     about_image = models.ImageField(upload_to='restaurant_about/', blank=True, null=True)
+    descrtiption = models.TextField(upload_to='restaurant_about/', blank=True, null=True)
     
     def __str__(self):
         return self.name
