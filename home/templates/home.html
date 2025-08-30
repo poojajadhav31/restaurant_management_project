@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}restaurant_name{% endblock %}</title>
+    <title>{% block title %}{{ restaurant_name }}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="home-body">
@@ -54,7 +54,7 @@
 
                 <!-- Order Now Button -->
                 <div class = "order-btn-container">
-                    <a href="{% url 'order %}" class="order-btn">Order Now</a>
+                    <a href="{% url 'order' %}" class="order-btn">Order Now</a>
                 </div>
 
             </main>
@@ -75,3 +75,4 @@
     </div>
 </body>
 </html>
+
