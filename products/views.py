@@ -1,5 +1,9 @@
+from dattime import date
+from django.core.paginator import Paginator
+from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .models import Special
 
 @api_view(['GET'])
 def menu_api(request):
@@ -23,8 +27,24 @@ def menu_api(request):
         }
 
     ]
-    return Response(menu)
+    # Get page number from request ( default = 1 )
+    page_number = request.GET.get('page',1)
+    paginator = Paginator(menu, 2 )
+
+    try:
+        page_obj = paginator.page(page_number)
+    except:
+        page_obj = paginator.page(1)
+
+    data = {
+        "count": paginator.count,
+        "total_pages": page_obj.number,
+        "current_page": page_obj.number,
+        "results": list(page_obj.object_list),
+    }
+    return Response(data)
 
 def todays_specials(request):
     specials = Special.objects.filter(date=date.today())
+
     return render(request,'products/specials.html',{'specials':specials})
