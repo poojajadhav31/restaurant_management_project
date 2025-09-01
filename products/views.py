@@ -10,7 +10,7 @@ def menu_api(request):
     menu = [
         {
             "name" : "Panner Butter Masala",
-            "description" : "Soft panner cubs in creamy toamto gravy",
+            "description" : "Soft panner cubs in creamy tomato gravy",
             "price" : "180.00"
         },
 
@@ -22,7 +22,7 @@ def menu_api(request):
 
         {
             "name" : "Masala Dosa",
-            "description" : "Crispy dosa stoffed with spicy mashed potatoes",
+            "description" : "Crispy dosa stuffed with spicy mashed potatoes",
             "price" : 70.00
         }
 
