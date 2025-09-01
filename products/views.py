@@ -1,4 +1,4 @@
-from dattime import date
+from datetime import date
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from rest_framework.decorators import api_view
@@ -15,14 +15,14 @@ def menu_api(request):
         },
 
         {
-            "name" : "Veg Biryni",
+            "name" : "Veg Biryani",
             "description" : "Aromatic rice with mixed vegetables and spices",
             "price" : "150.00"
         },
 
         {
             "name" : "Masala Dosa",
-            "description" : "Crispy dosa stoffed with spicy mashed patatoes",
+            "description" : "Crispy dosa stoffed with spicy mashed potatoes",
             "price" : 70.00
         }
 
