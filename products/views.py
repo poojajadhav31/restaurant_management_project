@@ -48,3 +48,8 @@ def todays_specials(request):
     specials = Special.objects.filter(date=date.today())
 
     return render(request,'products/specials.html',{'specials':specials})
+
+def about_chefs(request):
+    from .models import Chef
+    chefs = Chef.objects.all()
+    return render(request,'products/chefs.html',{'chefs':chefs})

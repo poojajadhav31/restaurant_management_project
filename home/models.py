@@ -8,7 +8,7 @@ class RestaurantInfo(models.Model):
     logo = models.ImageField(upload_to='restaurant_logos/', blank=True, null=True)
     image = models.ImageField(upload_to='restaurant_images/', blank=True, null=True)
     about_image = models.ImageField(upload_to='restaurant_about/', blank=True, null=True)
-    descrtiption = models.TextField(upload_to='restaurant_about/', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -25,7 +25,7 @@ class RestaurantLocation(models.Model):
 class ContactSubmission(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    submmited_at = models.DateTimeField(auto_now_add=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.name
@@ -37,9 +37,3 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f" Feedback from {self.name}"
-
-def __str__(self):
-    return f"feedback {self.id} - {self.submmited_at.strtime('%Y-%m%d')}"
-
-python manage.py makemigrations
-python manage.py migrate
