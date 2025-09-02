@@ -1,0 +1,12 @@
+{% load product_extras %}
+
+<ul>
+    {% for product in products %}
+        <li>
+            {{ product.name }}
+            {% if not product.is_available %}
+                <span style="color:red;">{{ product.is_available|coming_soon }}</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
