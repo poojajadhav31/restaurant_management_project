@@ -5,7 +5,7 @@
     <p>{{ restaurant.description }}</p>
     
     {% if restaurant.image %}
-       <img src="{{ restaurant.image.url }}" alt="{{ restaurnt.name }}" width="600">
+       <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}" width="600">
     {% else %}  
        <img src="{% static 'images/restaurant.jpg' %}" alt="Tasty Bites Resaturant" width="600">
     {% endif %}
