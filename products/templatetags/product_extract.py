@@ -2,10 +2,12 @@ from django import template
 
 register = template.Library()
 
-@register.filter(name="coming_soon")
-def coming_soon(is_available):
+@register.filter
+def show_availability(product):
     """
-    Custom filter to display 'Coming Soon' if product is unavailable.
-    Usage: {{ product.is_available|coming_soon }}
+    If product is unavailable, show 'Coming Soon',
+    else return the product name.
     """
-    return "Coming Soon 🚀" if not is_available else ""
+    if not product.available:
+        return f"{product.name} - Coming Soon "
+    return product.name

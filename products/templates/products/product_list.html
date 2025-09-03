@@ -1,12 +1,8 @@
-{% load product_extras %}
+{% load product_tags %}
 
+<h2>Our Products</h2>
 <ul>
-    {% for product in products %}
-        <li>
-            {{ product.name }}
-            {% if not product.is_available %}
-                <span style="color:red;">{{ product.is_available|coming_soon }}</span>
-            {% endif %}
-        </li>
-    {% endfor %}
+  {% for product in products %}
+    <li>{{ product|show_availability }}</li>
+  {% endfor %}
 </ul>
