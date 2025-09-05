@@ -137,3 +137,11 @@ def feedback_view(request):
 
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
+
+def contact_success(request):
+    return render(request, "home/contact_success.html")
+
+from django.shortcuts import render
+
+def faq_view(request):
+    return render(request, "home/faq.html")

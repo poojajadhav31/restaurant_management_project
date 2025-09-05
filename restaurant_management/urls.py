@@ -15,17 +15,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django import settings
-from django.conf.urls.staic import staic
-from django.urls import path,include
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include('home.urls')),
-    path('api/accounts/',include('account.urls')),
-    path('api/products/',include('products.urls')),
-    path('api/orders/',include('orders.urls')),
-    path('login/auth_views.LoginView.as_view(template_name='home/login.html' name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='home', name='logout'),
+
+    # app routes
+    path('api/', include('home.urls')),
+    path('api/accounts/', include('account.urls')),
+    path('api/products/', include('products.urls')),
+    path('api/orders/', include('orders.urls')),
+    path("api/", include("rides.urls")),
+
+
+    # auth routes
+    path(
+        'login/',
+        auth_views.LoginView.as_view(template_name='home/login.html'),
+        name='login'
+    ),
+    path(
+        'logout/',
+        auth_views.LogoutView.as_view(next_page='home'),
+        name='logout'
+    ),
 ]
-+ staic(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# serve media files in development only
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

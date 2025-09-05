@@ -1,5 +1,5 @@
 from django import forms
-from .models import feedbck
+from .models import Feedback
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100, required=True,widget=forms.TextInput(attrs={
@@ -13,19 +13,9 @@ class ContactForm(forms.Form):
         widget = forms.Textarea(attrs={'rows': 4, 'placeholder': 'Your message (optional)'}),
     )
 
-class feedbckForm(forms.ModelForm):
-    class Meta:
-        model = feedbck
-        fields = ['comment']
-        widgets = {
-            'comment': forms.Textarea(attrs={'placeholder': 'Enter your feedback...','rows':4,'col':50}),
-        }
-
 class FeedbackForm(forms.ModelForm):
     class Meta:
-        model = feedback
-        fields = ['name', 'feedback_text']
-        widgets = {
-            'name':forms.TextInput(attrs={'class': 'form-control','placeholder': 'Enter your name'}),
-            'feedback_text': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Write your feddback'}),
-        }
+        model = Feedback
+        fields = ['name', 'email', 'message']
+
+
