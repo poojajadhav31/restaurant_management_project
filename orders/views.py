@@ -1,13 +1,8 @@
-from django.shortcuts import render
-from .models import Order
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-# Create your views here.
-def get_cart_item_count(request):
-    if request.user.is_authenticated:
-        try:
-            order = Order.get(user=request.user, status='pending')
-            return order.items.count()
-        except Order.DoesNotExist:
-            return 0
-        else:
-            return 0
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def protected_order_list(request):
+    return Response({"message": f"Hello {request.user.username}, here are your orders!"})
