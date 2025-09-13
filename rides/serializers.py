@@ -77,3 +77,8 @@ class RideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ride
         fields = ["id", "rider", "driver", "pickup_location", "dropoff_location", "status", "created_at"]
+    
+class DriverLocationUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Driver
+        fields = ["current_latitude", "current_longitude"]

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
-from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer
+from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer
 from .models import Rider, Driver, Ride
 
 # ---------------- Rider & Driver Registration ---------------- #
@@ -100,3 +100,46 @@ class RideListView(APIView):
 
     def get(self, request):
         return Response({"message": "You are authenticated and can see ride details!"})
+
+# ---------------- Driver Location Update & Ride Tracking ---------------- #
+
+class UpdateLocationView(APIView):
+    """Driver updates live location"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            driver = Driver.objects.get(user=request.user)
+        except Driver.DoesNotExist:
+            return Response({"error": "Only drivers can update location"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = DriverLocationUpdateSerializer(driver, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Location updated successfully!"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TrackRideView(APIView):
+    """Rider tracks driver’s location"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, ride_id):
+        ride = get_object_or_404(Ride, id=ride_id)
+
+        # ensure ride is ongoing
+        if ride.status != "ONGOING":
+            return Response({"error": "Tracking available only for ongoing rides"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # ensure only assigned rider or driver can track
+        if request.user != ride.rider.user and request.user != ride.driver.user:
+            return Response({"error": "Not authorized"}, status=status.HTTP_403_FORBIDDEN)
+
+        driver = ride.driver
+        if not driver or not driver.current_latitude or not driver.current_longitude:
+            return Response({"error": "Driver location not available"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({
+            "driver_latitude": driver.current_latitude,
+            "driver_longitude": driver.current_longitude
+        }, status=status.HTTP_200_OK)
