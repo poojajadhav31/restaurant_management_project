@@ -31,3 +31,30 @@ class Driver(models.Model):
 
     def __str__(self):
         return f"Driver: {self.user.username} - {self.vehicle_number_plate}"
+
+class Ride(models.Model):
+    STATUS_CHOICES = [
+        ("REQUESTED", "Requested"),
+        ("ONGOING", "Ongoing"),
+        ("COMPLETED", "Completed"),
+        ("CANCELLED", "Cancelled"),
+    ]
+
+    rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
+    driver = models.ForeignKey(Driver, on_delete=models.SET_NULL, null=True, blank=True)
+
+    pickup_address = models.CharField(max_length=255)
+    dropoff_address = models.CharField(max_length=255)
+
+    pickup_lat = models.FloatField()
+    pickup_lng = models.FloatField()
+    drop_lat = models.FloatField()
+    drop_lng = models.FloatField()
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="REQUESTED")
+
+    requested_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Ride {self.id} - {self.status}"

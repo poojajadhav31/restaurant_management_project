@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Rider, Driver
-
+from .models import Ride
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,3 +69,11 @@ class DriverRegistrationSerializer(serializers.ModelSerializer):
         # Create Driver profile
         driver = Driver.objects.create(user=user, **validated_data)
         return driver
+
+class RideSerializer(serializers.ModelSerializer):
+    rider = serializers.StringRelatedField()
+    driver = serializers.StringRelatedField()
+
+    class Meta:
+        model = Ride
+        fields = ["id", "rider", "driver", "pickup_location", "dropoff_location", "status", "created_at"]
