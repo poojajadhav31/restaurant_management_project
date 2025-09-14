@@ -82,3 +82,14 @@ class DriverLocationUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver
         fields = ["current_latitude", "current_longitude"]
+        
+from rest_framework import serializers
+from .models import Ride
+
+class RideHistorySerializer(serializers.ModelSerializer):
+    driver = serializers.CharField(source="driver.username", read_only=True)
+    rider = serializers.CharField(source="rider.username", read_only=True)
+
+    class Meta:
+        model = Ride
+        fields = ["pickup", "drop", "status", "requested_at", "driver", "rider"]

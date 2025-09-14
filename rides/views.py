@@ -1,3 +1,4 @@
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -194,3 +195,25 @@ class CancelRideView(APIView):
         ride.save()
         return Response({"message": "Ride cancelled successfully."}, status=status.HTTP_200_OK)
 
+# Rider Ride History
+class RiderHistoryView(ListAPIView):
+    serializer_class = RideSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        rider = Rider.objects.get(user=self.request.user)
+        return Ride.objects.filter(
+            rider=rider, status__in=["COMPLETED", "CANCELLED"]
+        ).order_by("-requested_at")
+
+
+# Driver Ride History
+class DriverHistoryView(ListAPIView):
+    serializer_class = RideSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        driver = Driver.objects.get(user=self.request.user)
+        return Ride.objects.filter(
+            driver=driver, status__in=["COMPLETED", "CANCELLED"]
+        ).order_by("-requested_at")
