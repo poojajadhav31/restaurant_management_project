@@ -143,3 +143,51 @@ class TrackRideView(APIView):
             "driver_latitude": driver.current_latitude,
             "driver_longitude": driver.current_longitude
         }, status=status.HTTP_200_OK)
+        
+# ---------------- Ride Completion & Cancellation ---------------- #
+
+class CompleteRideView(APIView):
+    """Driver marks a ride as completed"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, ride_id):
+        driver = Driver.objects.get(user=request.user)
+        ride = get_object_or_404(Ride, id=ride_id)
+
+        # Rule: Only assigned driver can complete
+        if ride.driver != driver:
+            return Response({"error": "You are not assigned to this ride."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        # Rule: Ride must be ongoing
+        if ride.status != "ONGOING":
+            return Response({"error": "Only ongoing rides can be completed."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        ride.status = "COMPLETED"
+        ride.save()
+        return Response({"message": "Ride marked as completed."}, status=status.HTTP_200_OK)
+
+
+class CancelRideView(APIView):
+    """Rider cancels a ride"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, ride_id):
+        rider = Rider.objects.get(user=request.user)
+        ride = get_object_or_404(Ride, id=ride_id)
+
+        # Rule: Only the booking rider can cancel
+        if ride.rider != rider:
+            return Response({"error": "You cannot cancel this ride."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        # Rule: Ride must be REQUESTED to cancel
+        if ride.status != "REQUESTED":
+            return Response({"error": "Cannot cancel a ride that is already ongoing or completed."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        ride.status = "CANCELLED"
+        ride.save()
+        return Response({"message": "Ride cancelled successfully."}, status=status.HTTP_200_OK)
+
