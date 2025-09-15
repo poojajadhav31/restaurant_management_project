@@ -6,9 +6,10 @@ from rest_framework.decorators import api_view , permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions
 
-from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer
-from .models import Rider, Driver, Ride
+from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer
+from .models import Rider, Driver, Ride , RideFeedback
 
 # ---------------- Rider & Driver Registration ---------------- #
 @api_view(["POST"])
@@ -203,7 +204,8 @@ class RiderHistoryView(ListAPIView):
     def get_queryset(self):
         rider = Rider.objects.get(user=self.request.user)
         return Ride.objects.filter(
-            rider=rider, status__in=["COMPLETED", "CANCELLED"]
+            rider=rider, 
+            status__in=["COMPLETED", "CANCELLED"]
         ).order_by("-requested_at")
 
 
@@ -216,4 +218,14 @@ class DriverHistoryView(ListAPIView):
         driver = Driver.objects.get(user=self.request.user)
         return Ride.objects.filter(
             driver=driver, status__in=["COMPLETED", "CANCELLED"]
+            
         ).order_by("-requested_at")
+
+class RideFeedbackView(generics.CreateAPIView):
+    queryset = RideFeedback.objects.all()
+    serializer_class = RideFeedbackSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
+        

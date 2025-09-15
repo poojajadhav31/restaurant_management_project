@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Rider(models.Model):
@@ -58,3 +59,18 @@ class Ride(models.Model):
 
     def __str__(self):
         return f"Ride {self.id} - {self.status}"
+    
+    
+class RideFeedback(models.Model):
+    ride = models.ForeignKey("Ride", on_delete=models.CASCADE, related_name="feedbacks")
+    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField(blank=True)
+    is_driver = models.BooleanField()  # True if driver left feedback
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("ride", "submitted_by")  # one feedback per user per ride
+
+    def __str__(self):
+        return f"Feedback by {self.submitted_by.username} on Ride {self.ride.id}"

@@ -8,7 +8,8 @@ from .views import (
     RideListView,
     UpdateLocationView,
     TrackRideView,
-    CompleteRideView, CancelRideView
+    CompleteRideView, CancelRideView,
+    RiderHistoryView, DriverHistoryView
 )
 
 urlpatterns = [
@@ -22,5 +23,8 @@ urlpatterns = [
     path("ride/track/<int:ride_id>/", TrackRideView.as_view(), name="track-ride"),
     path("ride/complete/<int:ride_id>/", CompleteRideView.as_view(), name="complete-ride"),
     path("ride/cancel/<int:ride_id>/", CancelRideView.as_view(), name="cancel-ride"),
+    # New Ride History APIs
+    path("rider/history/", RiderHistoryView.as_view(), name="rider-history"),
+    path("driver/history/", DriverHistoryView.as_view(), name="driver-history"),
 ]
 
