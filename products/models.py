@@ -1,4 +1,5 @@
 from django.db import models
+from home.models import MenuCategory
 
 # Create your models here.
 class Product(models.Model):
@@ -7,6 +8,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='product_images/', blank=True, null=True) 
     available = models.BooleanField(default=True)  
+    category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE, related_name="products", null=True, blank=True)
+
     def __str__(self):
         return str(self.name)
 

@@ -21,6 +21,13 @@ class RestaurantLocation(models.Model):
 
     def __str__(self):
         return f"{self.address}, {self.city}, {self.state} - {self.zip_code}"
+    
+class MenuCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
         
 class ContactSubmission(models.Model):
     name = models.CharField(max_length=100)

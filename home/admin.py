@@ -3,6 +3,8 @@ from .models import RestaurantInfo
 from .models import RestaurantLocation
 from .models import ContactSubmission
 from .models import Feedback
+from .models import MenuCategory
+
 
 # Register your models here.
 @admin.register(RestaurantInfo)
@@ -12,4 +14,5 @@ class RestaurantInfoAdmin(admin.ModelAdmin):
 admin.site.register(RestaurantLocation)
 admin.site.register(ContactSubmission)
 admin.site.register(Feedback)
+admin.site.register(MenuCategory)
 opening_hours = "Mon-Fri: 11 AM-9PM\nSat-Sun: 10AM-10PM"
