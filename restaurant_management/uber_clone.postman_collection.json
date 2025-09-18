@@ -1,0 +1,216 @@
+{
+  "info": {
+    "name": "Uber Clone - Full Flow",
+    "_postman_id": "uber-clone-12345",
+    "description": "Complete Uber Clone APIs - Rider + Driver Workflow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Rider Registration",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"rider1\",\n  \"password\": \"riderpassword\",\n  \"email\": \"rider1@example.com\",\n  \"phone_number\": \"9999999999\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/register-rider/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "register-rider", ""]
+        }
+      }
+    },
+    {
+      "name": "2. Driver Registration",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"driver1\",\n  \"password\": \"driverpassword\",\n  \"email\": \"driver1@example.com\",\n  \"phone_number\": \"8888888888\",\n  \"vehicle_number_plate\": \"KA01AB1234\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/register-driver/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "register-driver", ""]
+        }
+      }
+    },
+    {
+      "name": "3. Rider Login - Get Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"rider1\",\n  \"password\": \"riderpassword\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "token", ""]
+        }
+      }
+    },
+    {
+      "name": "4. Driver Login - Get Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"driver1\",\n  \"password\": \"driverpassword\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "token", ""]
+        }
+      }
+    },
+    {
+      "name": "5. Rider - Request Ride",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{rider_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pickup_address\": \"Koramangala, Bangalore\",\n  \"dropoff_address\": \"MG Road, Bangalore\",\n  \"pickup_lat\": 12.9352,\n  \"pickup_lng\": 77.6147,\n  \"drop_lat\": 12.9763,\n  \"drop_lng\": 77.6033\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/request/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "request", ""]
+        }
+      }
+    },
+    {
+      "name": "6. Driver - See Available Rides",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/available/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "available", ""]
+        }
+      }
+    },
+    {
+      "name": "7. Driver - Accept Ride",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/accept/1/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "accept", "1", ""]
+        }
+      }
+    },
+    {
+      "name": "8. Driver - Update Location",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"latitude\": 12.9321,\n  \"longitude\": 77.6103\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/update-location/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "update-location", ""]
+        }
+      }
+    },
+    {
+      "name": "9. Rider - Track Driver Location",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{rider_token}}" }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/track/1/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "track", "1", ""]
+        }
+      }
+    },
+    {
+      "name": "10. Driver - Complete Ride",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/complete/1/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "complete", "1", ""]
+        }
+      }
+    },
+    {
+      "name": "11. Rider - Cancel Ride (before accepted)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{rider_token}}" }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/rides/ride/cancel/1/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["api", "rides", "ride", "cancel", "1", ""]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "rider_token", "value": "" },
+    { "key": "driver_token", "value": "" }
+  ]
+}

@@ -221,11 +221,59 @@ class DriverHistoryView(ListAPIView):
             
         ).order_by("-requested_at")
 
-class RideFeedbackView(generics.CreateAPIView):
-    queryset = RideFeedback.objects.all()
-    serializer_class = RideFeedbackSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class RideFeedbackView(APIView):
+    permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save()
-        
+    def post(self, request, ride_id):
+        # 1. Fetch the ride
+        ride = get_object_or_404(Ride, id=ride_id)
+
+        # 2. Ensure ride is completed
+        if ride.status != "COMPLETED":
+            return Response(
+                {"error": "Ride is not completed yet."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 3. Determine if user is rider or driver
+        is_driver = False
+        if hasattr(request.user, "driver"):
+            if ride.driver != request.user.driver:
+                return Response(
+                    {"error": "You are not the driver for this ride."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            is_driver = True
+        elif hasattr(request.user, "rider"):
+            if ride.rider != request.user.rider:
+                return Response(
+                    {"error": "You are not the rider for this ride."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        else:
+            return Response(
+                {"error": "User is neither rider nor driver."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # 4. Check if feedback already exists
+        if RideFeedback.objects.filter(ride=ride, submitted_by=request.user, is_driver=is_driver).exists():
+            return Response(
+                {"error": "You have already submitted feedback for this ride."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # 5. Save feedback
+        serializer = RideFeedbackSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(
+                ride=ride,
+                submitted_by=request.user,
+                is_driver=is_driver
+            )
+            return Response(
+                {"message": "Feedback submitted successfully."},
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,0 +1,7 @@
+[
+    {"model": "orders.orderstatus", "pk": 1, "fields": {"name": "Pending"}},
+    {"model": "orders.orderstatus", "pk": 2, "fields": {"name": "Preparing"}},
+    {"model": "orders.orderstatus", "pk": 3, "fields": {"name": "Ready"}},
+    {"model": "orders.orderstatus", "pk": 4, "fields": {"name": "Completed"}},
+    {"model": "orders.orderstatus", "pk": 5, "fields": {"name": "Cancelled"}}
+]
