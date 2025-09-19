@@ -4,8 +4,10 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render
 from products.models import Product
-from .models import RestaurantInfo, ContactSubmission, Feedback
+from rest_framework.generics import ListAPIView
+from .models import RestaurantInfo, ContactSubmission, Feedback ,MenuCategory
 from .forms import ContactForm, FeedbackForm
+from .serializers import MenuCategorySerializer
 from orders.models import Order  # Import your Order model
 
 logger = logging.getLogger(__name__)
@@ -145,3 +147,8 @@ from django.shortcuts import render
 
 def faq_view(request):
     return render(request, "home/faq.html")
+
+class MenuCategoryListView(ListAPIView):
+    queryset = MenuCategory.objects.all()
+    serializer_class = MenuCategorySerializer
+

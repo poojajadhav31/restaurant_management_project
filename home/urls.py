@@ -1,11 +1,14 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import MenuCategoryListView
+
 
 urlpatterns = [
     path('', views.homepage_view, name='home'),
     path('about/', views.about_view, name='about'),
     path('menu/', views.menu_view, name='menu_list'),
+    path('api/menu-categories/', MenuCategoryListView.as_view(), name='menu-categories'),
     path('contact/', views.contact_view, name="contact"),
     path('contact/success/', views.contact_success, name="contact_success"),  
     path('reservations/', views.reservations_view, name="reservations"),
