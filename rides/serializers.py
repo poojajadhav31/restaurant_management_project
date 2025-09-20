@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Rider, Driver
 from .models import Ride, RideFeedback
+from .utils import calculate_distance
+from decimal import Decimal
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -93,6 +95,41 @@ class RideHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Ride
         fields = ["pickup", "drop", "status", "requested_at", "driver", "rider"]
+
+class FareCalculationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ride
+        fields = ["id", "status", "pickup_lat", "pickup_lng", "drop_lat", "drop_lng", "fare"]
+
+    def update(self, instance, validated_data):
+        """
+        Custom update: calculate and set fare only if ride is completed.
+        """
+        # update status if provided
+        status = validated_data.get("status", instance.status)
+        instance.status = status
+
+        # Only calculate fare if ride is completed and fare not already set
+        if status == "COMPLETED" and instance.fare is None:
+            # Constants
+            base_fare = Decimal("50.00")
+            per_km_rate = Decimal("10.00")
+            surge_multiplier = Decimal(self.context.get("surge_multiplier", 1.0))
+
+            # Calculate distance
+            distance_km = Decimal(calculate_distance(
+                instance.pickup_lat,
+                instance.pickup_lng,
+                instance.drop_lat,
+                instance.drop_lng
+            ))
+
+            # Apply formula
+            fare = base_fare + (distance_km * per_km_rate * surge_multiplier)
+            instance.fare = round(fare, 2)
+
+        instance.save()
+        return instance
 
 
 class RideFeedbackSerializer(serializers.ModelSerializer):
