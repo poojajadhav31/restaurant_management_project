@@ -7,8 +7,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
+from .serializers import FareCalculationSerializer
 
-from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer
+from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer , RideFareSerializer
 from .models import Rider, Driver, Ride , RideFeedback
 
 # ---------------- Rider & Driver Registration ---------------- #
@@ -220,6 +221,53 @@ class DriverHistoryView(ListAPIView):
             driver=driver, status__in=["COMPLETED", "CANCELLED"]
             
         ).order_by("-requested_at")
+class FareCalculationView(generics.UpdateAPIView):
+    queryset = Ride.objects.all()
+    serializer_class = FareCalculationSerializer
+    
+class CalculateFareAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, ride_id):
+        # Get the ride or 404
+        ride = get_object_or_404(Ride, id=ride_id)
+
+        # Security: Only rider, driver, or admin can calculate fare
+        if not (
+            request.user.is_superuser
+            or (ride.rider.user == request.user)
+            or (ride.driver and ride.driver.user == request.user)
+        ):
+            return Response(
+                {"message": "You do not have permission to calculate fare for this ride."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        # Validation: Ride must be completed
+        if ride.status != "COMPLETED":
+            return Response(
+                {"message": "Ride must be completed before fare calculation."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Validation: Prevent re-calculation
+        if ride.fare:
+            return Response(
+                {"message": "Fare already set.", "fare": float(ride.fare)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Use serializer to calculate fare
+        serializer = RideFareSerializer(ride, data={}, context={"request": request}, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"fare": float(ride.fare), "message": "Fare calculated and saved."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RideFeedbackView(APIView):
     permission_classes = [IsAuthenticated]
