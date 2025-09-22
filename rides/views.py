@@ -9,13 +9,51 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from .serializers import FareCalculationSerializer
 from .serializers import RidePaymentSerializer
+from django.utils import timezone
 
 from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer, RideFareSerializer
 from .models import Rider, Driver, Ride , RideFeedback
 
 # ---------------- Rider & Driver Registration ---------------- #
 @api_view(["POST"])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
+def mark_ride_payment(request, ride_id):
+    """
+    Mark a ride as PAID with the selected payment method.
+    """
+    try:
+        ride = Ride.objects.get(id=ride_id)
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    #  Ownership check (only rider, driver, or admin can access)
+    user = request.user
+    if ride.rider != user and ride.driver != user and not user.is_staff:
+        return Response({"error": "Not authorized to update this ride."},
+                        status=status.HTTP_403_FORBIDDEN)
+
+    #  Ride must be completed
+    if ride.status != "COMPLETED":
+        return Response({"error": "Ride is not completed yet."},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    #  Prevent duplicate payments
+    if ride.payment_status == "PAID":
+        return Response({"error": "Ride is already marked as paid."},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    #  Validate serializer input
+    serializer = RidePaymentSerializer(data=request.data, instance=ride)
+    if serializer.is_valid():
+        serializer.save(paid_at=timezone.now())
+        return Response({
+            "message": "Payment marked as complete.",
+            "status": ride.payment_status,
+            "method": ride.payment_method
+        }, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 def register_rider(request):
     serializer = RiderRegistrationSerializer(data=request.data)
     if serializer.is_valid():
