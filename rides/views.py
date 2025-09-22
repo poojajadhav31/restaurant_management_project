@@ -8,8 +8,9 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from .serializers import FareCalculationSerializer
+from .serializers import RidePaymentSerializer
 
-from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer , RideFareSerializer
+from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer, RideFareSerializer
 from .models import Rider, Driver, Ride , RideFeedback
 
 # ---------------- Rider & Driver Registration ---------------- #
@@ -197,7 +198,30 @@ class CancelRideView(APIView):
         ride.save()
         return Response({"message": "Ride cancelled successfully."}, status=status.HTTP_200_OK)
 
-# Rider Ride History
+#---------------- Payment Processing ---------------- #
+class RidePaymentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, ride_id):
+        try:
+            ride = Ride.objects.get(id=ride_id)
+        except Ride.DoesNotExist:
+            return Response({"error": "Ride not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Ensure only rider, driver, or admin can access
+        if request.user != ride.rider.user and request.user != ride.driver.user and not request.user.is_staff:
+            return Response({"error": "Not authorized"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = RidePaymentSerializer(ride, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": "Payment recorded successfully", "data": serializer.data},
+                status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# ---------------- Ride History & Feedback ---------------- #
 class RiderHistoryView(ListAPIView):
     serializer_class = RideSerializer
     permission_classes = [IsAuthenticated]

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 from django.contrib.auth.models import User
 from .models import Rider, Driver
 from .models import Ride, RideFeedback
@@ -129,6 +130,59 @@ class FareCalculationSerializer(serializers.ModelSerializer):
             instance.fare = round(fare, 2)
 
         instance.save()
+        return instance
+class RideFareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ride
+        fields = ["id", "fare", "payment_status", "payment_method", "paid_at"]
+
+    def update(self, instance, validated_data):
+        # Allow payment status updates only if ride is COMPLETED
+        if validated_data.get("payment_status") == "PAID":
+            if instance.status != "COMPLETED":
+                raise serializers.ValidationError("Ride must be COMPLETED before payment.")
+            if instance.payment_status == "PAID":
+                raise serializers.ValidationError("Payment is already marked as PAID.")
+            instance.payment_status = "PAID"
+            instance.payment_method = validated_data.get("payment_method")
+            instance.paid_at = timezone.now()
+        elif validated_data.get("payment_status") == "UNPAID":
+            instance.payment_status = "UNPAID"
+            instance.payment_method = None
+            instance.paid_at = None
+
+        instance.save()
+        return instance
+  
+class RidePaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ride
+        fields = ["payment_status", "payment_method"]
+
+    def validate(self, data):
+        ride = self.instance
+
+        if ride.status != "COMPLETED":
+            raise serializers.ValidationError("Ride must be completed before payment.")
+
+        if ride.payment_status == "PAID":
+            raise serializers.ValidationError("Ride already marked as paid.")
+
+        if data.get("payment_status") == "PAID" and not data.get("payment_method"):
+            raise serializers.ValidationError("Payment method required if marking as PAID.")
+
+        return data
+
+    def update(self, instance, validated_data):
+        payment_status = validated_data.get("payment_status")
+        payment_method = validated_data.get("payment_method")
+
+        if payment_status == "PAID":
+            instance.payment_status = "PAID"
+            instance.payment_method = payment_method
+            instance.paid_at = timezone.now()
+            instance.save()
+
         return instance
 
 

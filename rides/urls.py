@@ -9,7 +9,7 @@ from .views import (
     UpdateLocationView,
     TrackRideView,
     CompleteRideView, CancelRideView,
-    RiderHistoryView, DriverHistoryView, RideFeedbackView, CalculateFareAPIView, FareCalculationView   
+    RiderHistoryView, DriverHistoryView, RideFeedbackView, CalculateFareAPIView, FareCalculationView ,RidePaymentView 
 )
 
 urlpatterns = [
@@ -25,6 +25,8 @@ urlpatterns = [
     path("ride/cancel/<int:ride_id>/", CancelRideView.as_view(), name="cancel-ride"),
     path("rides/<int:pk>/calculate-fare/", FareCalculationView.as_view(), name="calculate-fare"),
     path("ride/calculate-fare/<int:ride_id>/", CalculateFareAPIView.as_view(), name="calculate-fare"),
+    path("ride/payment/<int:ride_id>/", RidePaymentView.as_view(), name="ride-payment"),
+
 
     # New Ride History APIs
     path("rider/history/", RiderHistoryView.as_view(), name="rider-history"),

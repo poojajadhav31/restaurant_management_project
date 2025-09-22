@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 
 class Rider(models.Model):
@@ -40,6 +41,17 @@ class Ride(models.Model):
         ("COMPLETED", "Completed"),
         ("CANCELLED", "Cancelled"),
     ]
+    
+    PAYMENT_STATUS_CHOICES = [
+        ("PAID", "Paid"),
+        ("UNPAID", "Unpaid"),
+    ]
+
+    PAYMENT_METHOD_CHOICES = [
+        ("CASH", "Cash"),
+        ("UPI", "UPI"),
+        ("CARD", "Card"),
+    ]
 
     rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL, null=True, blank=True)
@@ -54,14 +66,37 @@ class Ride(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="REQUESTED")
 
+    fare = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    payment_status = models.CharField(
+        max_length=10,
+        choices=PAYMENT_STATUS_CHOICES,
+        default="UNPAID"
+    )
+    payment_method = models.CharField(
+        max_length=10,
+        choices=PAYMENT_METHOD_CHOICES,
+        null=True,
+        blank=True
+    )
+    paid_at = models.DateTimeField(null=True, blank=True)
+
     requested_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    fare = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    def mark_as_paid(self, method):
+        """Helper method to mark ride as paid"""
+        if self.status != "COMPLETED":
+            raise ValueError("Ride must be completed before marking as paid")
+        if self.payment_status == "PAID":
+            raise ValueError("Ride already marked as paid")
+        self.payment_status = "PAID"
+        self.payment_method = method
+        self.paid_at = timezone.now()
+        self.save()
 
     def __str__(self):
-        return f"Ride {self.id} - {self.status}"
-    
+        return f"Ride {self.id} - {self.status} - {self.payment_status}"
+
     
 class RideFeedback(models.Model):
     ride = models.ForeignKey("Ride", on_delete=models.CASCADE, related_name="feedbacks")
