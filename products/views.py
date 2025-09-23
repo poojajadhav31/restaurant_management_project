@@ -1,8 +1,13 @@
+from rest_framework import viewsets
 from datetime import date
+from rest_framework import status
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializers import ProductSerializer
+from .models import Product
 from .models import Special
 
 @api_view(['GET'])
@@ -53,3 +58,21 @@ def about_chefs(request):
     from .models import Chef
     chefs = Chef.objects.all()
     return render(request,'products/chefs.html',{'chefs':chefs})
+
+class ProductPagination(PageNumberPagination):
+    page_size = 5   # adjust per page items
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class ProductSearchViewSet(viewsets.ViewSet):
+    pagination_class = ProductPagination
+
+    def list(self, request):
+        query = request.query_params.get('q', '')  # search query
+        products = Product.objects.filter(name__icontains=query)
+
+        paginator = self.pagination_class()
+        paginated_products = paginator.paginate_queryset(products, request)
+
+        serializer = ProductSerializer(paginated_products, many=True)
+        return paginator.get_paginated_response(serializer.data)
