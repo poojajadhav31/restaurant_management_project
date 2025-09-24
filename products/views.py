@@ -1,12 +1,14 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from datetime import date
-from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from rest_framework.generics import get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import ProductSerializer
+from .serializers import ProductUpdateSerializer
 from .models import Product
 from .models import Special
 
@@ -76,3 +78,22 @@ class ProductSearchViewSet(viewsets.ViewSet):
 
         serializer = ProductSerializer(paginated_products, many=True)
         return paginator.get_paginated_response(serializer.data)
+    
+    def product_search(self, request):
+        query = request.GET.get('q', '')
+        products = Product.objects.filter(name__icontains=query)
+        return render(request, 'products/product_list.html', {'products': products, 'query': query})
+    
+class ProductUpdateViewSet(viewsets.ViewSet):
+    permission_classes = [IsAdminUser]  # Only admin can update
+
+    def update(self, request, pk=None):
+        product = get_object_or_404(Product, pk=pk)
+        serializer = ProductUpdateSerializer(product, data=request.data, partial=True)  # partial=True allows PATCH
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": "Product updated successfully", "data": serializer.data},
+                status=status.HTTP_200_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
