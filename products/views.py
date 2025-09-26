@@ -50,6 +50,19 @@ def menu_api(request):
         "results": list(page_obj.object_list),
     }
     return Response(data)
+def products_by_category(request):
+    category_name = request.query_params.get('category', None)
+    
+    if not category_name:
+        return Response({"error": "Category parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    products = Product.objects.filter(category__category_name__iexact=category_name)
+    
+    if not products.exists():
+        return Response({"message": f"No products found for category '{category_name}'"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def todays_specials(request):
     specials = Special.objects.filter(date=date.today())
