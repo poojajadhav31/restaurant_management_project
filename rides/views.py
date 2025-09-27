@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from .serializers import FareCalculationSerializer
-from .serializers import RidePaymentSerializer
+from .serializers import RidePaymentSerializer, DriverEarningsSerializer
 from django.utils import timezone
 
 from .serializers import RiderRegistrationSerializer, DriverRegistrationSerializer , RideSerializer , DriverLocationUpdateSerializer , RideFeedbackSerializer, RideFareSerializer
@@ -258,7 +258,13 @@ class RidePaymentView(APIView):
                 status=status.HTTP_200_OK
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class DriverEarningsView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        driver = request.user
+        summary = DriverEarningsSerializer.for_driver(driver)
+        return Response(summary)
 # ---------------- Ride History & Feedback ---------------- #
 class RiderHistoryView(ListAPIView):
     serializer_class = RideSerializer

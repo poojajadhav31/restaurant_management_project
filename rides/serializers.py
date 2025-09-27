@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models import Sum, Avg, Count
 from .models import Rider, Driver
 from .models import Ride, RideFeedback
 from .utils import calculate_distance
+from datetime import timedelta
+from .models import Ride
 from decimal import Decimal
 
 class UserSerializer(serializers.ModelSerializer):
@@ -230,3 +233,37 @@ class RideFeedbackSerializer(serializers.ModelSerializer):
             is_driver=is_driver
         )
         return feedback
+    
+class DriverEarningsSerializer(serializers.Serializer):
+    total_rides = serializers.IntegerField()
+    total_earnings = serializers.DecimalField(max_digits=10, decimal_places=2)
+    payment_breakdown = serializers.DictField(child=serializers.IntegerField())
+    average_fare = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    @staticmethod
+    def for_driver(driver):
+        # filter last 7 days
+        seven_days_ago = timezone.now() - timedelta(days=7)
+        rides = Ride.objects.filter(
+            driver=driver,
+            status="COMPLETED",
+            payment_status="PAID",
+            completed_at__gte=seven_days_ago
+        )
+
+        total_rides = rides.count()
+        total_earnings = rides.aggregate(total=Sum("fare"))["total"] or 0
+        average_fare = rides.aggregate(avg=Avg("fare"))["avg"] or 0
+
+        # Payment breakdown (group by method)
+        payment_counts = rides.values("payment_method").annotate(count=Count("id"))
+        breakdown = {entry["payment_method"]: entry["count"] for entry in payment_counts}
+
+        data = {
+            "total_rides": total_rides,
+            "total_earnings": total_earnings,
+            "payment_breakdown": breakdown,
+            "average_fare": average_fare,
+        }
+
+        return DriverEarningsSerializer(data).data
