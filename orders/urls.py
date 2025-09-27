@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import OrderHistoryView, protected_order_list
 
 urlpatterns = [
-    path('', views.protected_order_list, name="orders"),
+    path('', protected_order_list, name="orders"),
+    path("history/", OrderHistoryView.as_view(), name="order-history"),
 ]

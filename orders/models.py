@@ -1,60 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
-from account.models import UserProfile
-from products.models import Product
-
-
-class OrderStatus(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
+from products.models import Product   #  Fixed import
 
 class Order(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='orders'
-    )
-
-    user_profile = models.ForeignKey(
-        UserProfile,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='user_orders'
-    )
-
-    items = models.ManyToManyField(Product, related_name='product_orders')
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-    # Updated: ForeignKey to OrderStatus instead of CharField
-    status = models.ForeignKey(
-        OrderStatus,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='orders'
-    )
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
     created_at = models.DateTimeField(auto_now_add=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"Order {self.id} - Rs{self.total_amount}"
+        return f"Order {self.id} by {self.user.username}"
 
-from django.db import models
 
-class Coupon(models.Model):
-    code = models.CharField(max_length=20, unique=True)
-    discount = models.DecimalField(max_digits=5, decimal_places=2)  # e.g., 10.00 means 10%
-    valid_from = models.DateTimeField()
-    valid_to = models.DateTimeField()
-    active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  #  Fixed
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.code} - {self.discount}%"
-
+        return f"{self.quantity} * {self.product.name}"
