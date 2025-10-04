@@ -4,13 +4,28 @@ from products.models import Product
 from django.utils import timezone
 from datetime import timedelta
 
+class ActiveOrderManager(models.Manager):
+    def get_active_orders(self):
+        # Filter orders with status 'pending' or 'processing'
+        return self.filter(status__in=['pending', 'processing','active'])
+
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    objects = ActiveOrderManager()  # <-- Attach your custom manager here
 
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
