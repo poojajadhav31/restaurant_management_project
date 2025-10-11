@@ -1,5 +1,6 @@
 from django import forms
-from utils.validation_utils import is_valid_email
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from .models import Feedback
 
 class ContactForm(forms.Form):
@@ -13,11 +14,13 @@ class ContactForm(forms.Form):
         required=True,
         widget = forms.Textarea(attrs={'rows': 4, 'placeholder': 'Your message (optional)'}),
     )
-    
     def clean_email(self):
         email = self.cleaned_data['email']
-        if not is_valid_email(email):
+        try:
+            validate_email(email)
+        except ValidationError:
             raise forms.ValidationError("Invalid email format")
+        return email
         return email
 
 class FeedbackForm(forms.ModelForm):

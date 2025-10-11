@@ -1,27 +1,21 @@
-import string
-import secrets
+from django.db.models import Sum
+from .models import Order
 
-# Remove or comment out the import if you don't have a Coupon model yet
-# from .models import Coupon
-
-def generate_coupon_code(length=10, model=None):
+def get_daily_sales_total(date):
     """
-    Generate a unique alphanumeric coupon code.
+    Calculates the total sales for a specific date.
 
     Args:
-        length (int): The length of the coupon code (default is 10).
-        model (Django Model): The model to check uniqueness against (must have a 'code' field).
+        date (datetime.date): The date for which total sales should be calculated.
 
     Returns:
-        str: A unique coupon code string.
+        Decimal: The total sales amount for the given date.
     """
-    characters = string.ascii_uppercase + string.digits
+    # Filter orders created on the specified date
+    orders = Order.objects.filter(created_at__date=date)
 
-    if model is None:
-        # If no model is provided, just return a random code (no uniqueness check)
-        return ''.join(secrets.choice(characters) for _ in range(length))
+    # Aggregate the sum of total_price for the day
+    total = orders.aggregate(total_sum=Sum('total_price'))['total_sum']
 
-    while True:
-        code = ''.join(secrets.choice(characters) for _ in range(length))
-        if not model.objects.filter(code=code).exists():
-            return code
+    # Return 0 if there are no orders for that date
+    return total or 0

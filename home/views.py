@@ -5,6 +5,10 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from products.models import Product
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from .models import RestaurantInfo, ContactSubmission, Feedback ,MenuCategory
 from .forms import ContactForm, FeedbackForm
 from .serializers import MenuCategorySerializer
@@ -116,12 +120,24 @@ def email_contact_view(request):
             )
 
             return render(request, 'home/email_success.html')
-    else:
-        form = ContactForm()
+def is_valid_email(email):
+    try:
+        validate_email(email)
+        return True
+    except ValidationError:
+        return False
 
-    return render(request, 'home/contact.html', {'form': form})
-
+def register_user(request):
+    email = request.data.get("email")
+    
+    if not is_valid_email(email):
+        return Response({"error": "Invalid email address"}, status=status.HTTP_400_BAD_REQUEST)
+    
 def reservations_view(request):
+    return render(request, "home/reservations.html", {
+        "restaurant_name": getattr(settings, "RESTAURANT_NAME", "Restaurant"),
+        "restaurant_phone": getattr(settings, "RESTAURANT_PHONE", ""),
+    })
     return render(request, "home/reservations.html", {
         "restaurant_name": getattr(settings, "RESTAURANT_NAME", "Restaurant"),
         "restaurant_phone": getattr(settings, "RESTAURANT_PHONE", ""),
