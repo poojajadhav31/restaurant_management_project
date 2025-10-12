@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import MenuCategoryListView
+from .views import RestaurantStatusView
 
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('reservations/', views.reservations_view, name="reservations"),
     path('feedback/', views.feedback_view, name='feedback'),
     path('faq/', views.faq_view, name="faq"),
+    path('api/restaurant/status/', RestaurantStatusView.as_view(), name='restaurant-status'),
 
     # auth routes
     path(

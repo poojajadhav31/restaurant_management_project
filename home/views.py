@@ -1,6 +1,7 @@
 import logging
 import requests
 from django.conf import settings
+from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import render
 from products.models import Product
@@ -12,7 +13,9 @@ from django.core.exceptions import ValidationError
 from .models import RestaurantInfo, ContactSubmission, Feedback ,MenuCategory
 from .forms import ContactForm, FeedbackForm
 from .serializers import MenuCategorySerializer
-from orders.models import Order  # Import your Order model
+from orders.models import Order  
+from rest_framework import status
+from .utils import is_restaurant_open
 
 logger = logging.getLogger(__name__)
 
@@ -168,3 +171,14 @@ class MenuCategoryListView(ListAPIView):
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
 
+class RestaurantStatusView(APIView):
+    """
+    API endpoint to check if the restaurant is currently open.
+    """
+
+    def get(self, request):
+        status_message = "open" if is_restaurant_open() else "closed"
+        return Response(
+            {"is_open": is_restaurant_open(), "status": status_message},
+            status=status.HTTP_200_OK
+        )
