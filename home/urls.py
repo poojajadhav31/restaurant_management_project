@@ -3,6 +3,8 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import MenuCategoryListView
 from .views import RestaurantStatusView
+from .views import TableDetailView
+
 
 
 urlpatterns = [
@@ -16,6 +18,8 @@ urlpatterns = [
     path('feedback/', views.feedback_view, name='feedback'),
     path('faq/', views.faq_view, name="faq"),
     path('api/restaurant/status/', RestaurantStatusView.as_view(), name='restaurant-status'),
+    path('api/tables/<int:pk>/', TableDetailView.as_view(), name='table-detail'),
+
 
     # auth routes
     path(

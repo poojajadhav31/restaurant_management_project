@@ -2,6 +2,9 @@ import logging
 import requests
 from django.conf import settings
 from rest_framework.views import APIView
+from rest_framework import generics
+from .models import Table
+from .serializers import TableSerializer
 from django.core.mail import send_mail
 from django.shortcuts import render
 from products.models import Product
@@ -182,3 +185,10 @@ class RestaurantStatusView(APIView):
             {"is_open": is_restaurant_open(), "status": status_message},
             status=status.HTTP_200_OK
         )
+
+class TableDetailView(generics.RetrieveAPIView):
+    """
+    API view to retrieve details of a single table by its ID.
+    """
+    queryset = Table.objects.all()
+    serializer_class = TableSerializer
